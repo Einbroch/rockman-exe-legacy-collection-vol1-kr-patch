@@ -60,7 +60,8 @@ def main():
         h = hashlib.sha256(f.read_bytes()).hexdigest()
         sums.append(f'{h}  {f.name}')
         print(f.name, f'{f.stat().st_size / 1e6:.1f} MB', h[:16])
-    (out / 'SHA256SUMS.txt').write_text('\n'.join(sums) + '\n', encoding='utf-8')
+    # LF 고정: 윈도 write_text 는 CRLF 로 써서 sha256sum -c 가 파일 이름 끝 \r 때문에 실패한다
+    (out / 'SHA256SUMS.txt').write_bytes(('\n'.join(sums) + '\n').encode('utf-8'))
     print('romfs 파일', len(files), '/ IPS', ips.name)
 
 
