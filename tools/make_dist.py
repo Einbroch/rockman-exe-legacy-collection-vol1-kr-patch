@@ -12,7 +12,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = 'v0.9.0'
+VERSION = 'v0.9.1'
 TID = '010038E016264000'
 FIXED_TIME = (2026, 11, 8, 0, 0, 0)   # 같은 입력이면 같은 zip
 

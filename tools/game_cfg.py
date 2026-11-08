@@ -82,7 +82,8 @@ EXE1 = Game(
     gba_db=('mmbn1s', 'mmbn1'), lc_db=('mmbn1s', 'mmbn1-lc'),
     jp_tbl='exe1-utf8', lc_jp_tbl='exeac-exe1-utf8',
     hangul_mode='lead_db', pages=4, cockpit_pages=1, chip_names=0x869B6D4, char_codes={'z': 2011},
-    line_subs=(('않는다n', list('않는다')), ('을 GET 했습니다', list('을 얻었습니다'))),
+    line_subs=(('않는다n', list('않는다')), ('을 GET 했습니다', list('을 얻었습니다')),
+               ('캐넌', list('캐논'))),   # EXE2·3 과 같은 표기(사용자 결정 11/09)
     cht_symbols=CHT_SYMBOLS_EXE1,
     text_fixes={
         (0x86AD300, 115): [('外に出て 水 たしかめよう!', '밖에 나가서 물을 확인해 보자!')],
