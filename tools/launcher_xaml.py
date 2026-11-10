@@ -23,6 +23,8 @@ ROOT = Path(__file__).resolve().parents[1]
 NSO = ROOT / '_work' / 'exefs_upd' / 'main'
 OUT = ROOT / 'build' / 'exefs'
 ASCENDER = 'Fonts/#Ascender Uni'
+# 번체 사전 위치값 덮어쓰기. ChipCaption: 칩·카드 상세의 이름 줄(번체 원본 75,250 = MYuenHK 34pt 기준 → 한글 글꼴은 위로 붙는다)
+THICKNESS = {'Thickness_ChipCaption': '75,262,0,0'}
 
 
 def load_nso(path):
@@ -98,6 +100,12 @@ def patch_cht_dict(img, table, edits):
                 return mm.group(0)
             return mm.group(1) + ASCENDER.encode() + b'</FontFamily>'
         new = re.sub(rb'(<FontFamily x:Key="[^"]+">)([^<]+)</FontFamily>', rep_font, new)
+
+        # 글꼴을 Ascender Uni 로 바꾸면 번체(MYuenHK)에 맞춘 위치값이 어긋나는 곳(Vol.2 화면에서 사용자 지적, 11/10)
+        def rep_thick(mm):
+            k = mm.group(1).decode()
+            return mm.group(0).replace(mm.group(2), THICKNESS[k].encode()) if k in THICKNESS else mm.group(0)
+        new = re.sub(rb'<Thickness x:Key="([^"]+)">([^<]+)</Thickness>', rep_thick, new)
         new = compensate(new, len(new) - len(block))
         assert len(new) == len(block)
         edits.append((s, e, new))
